@@ -7,15 +7,13 @@ from agent_for_sre.Conf.ConfAnalyzer import ConfAnalyzer
 from agent_for_sre.Monitor.DnsMonitor import DnsMonitor
 from agent_for_sre.Monitor.UrlMonitor import UrlMonitor
 
-if __name__ == "__main__":
-	import argparse
-	parser = argparse.ArgumentParser()
-	parser.add_argument("-f", "--file", required=True, help="输入yaml文件")
-	args = parser.parse_args()
+def run(product):
+	print()
+	print("------------------------------------------")
+	print("产品：",product)
 
-	config=ConfAnalyzer(args.file)
-	monitor_list=config.getMonitorMonitorlistByProduct('cia')
-	device_list=config.getMonitorDevicelistByProduct('cia')
+	monitor_list=config.getMonitorMonitorlistByProduct(product)
+	device_list=config.getMonitorDevicelistByProduct(product)
 
 	count=0;new=[]
 	for i in device_list:
@@ -38,3 +36,21 @@ if __name__ == "__main__":
 					checker2=DnsMonitor(ip,monitor_list[item])
 					for data2 in checker2.dns_resolve_check():
 						print(data2['domain'],data2['item'],data2['msg'])
+
+if __name__ == "__main__":
+	import argparse
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-f", "--file", required=True, help="输入yaml文件")
+	parser.add_argument("-p", "--product", required=False, help="输入产品名")
+	args = parser.parse_args()
+	yamlfile=args.file
+
+	config=ConfAnalyzer(yamlfile)
+
+	product_list=[]
+	if(args.product):
+		product_list.append(args.product)
+	else:
+		product_list=config.getProducts()
+	for product in product_list:
+		run(product)
