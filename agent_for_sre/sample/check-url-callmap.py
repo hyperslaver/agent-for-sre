@@ -20,13 +20,16 @@ if __name__ == "__main__":
 	device_list=new
 
 	for device in device_list:
+		print("------------------------------------------")
+		print("第",device['step'],"步",device['name'])
+		print("------------------------------------------")
 		for ip in device['ips']:
 			for item in device['monitor_items']:
 				if(monitor_list[item]['function']=='url_check'):
 					checker1=UrlMonitor(ip,monitor_list[item])
 					for data1 in checker1.url_check():
-						print(data1)
+						print(data1['ip'],data1['url'],data1['msg'])
 				if(monitor_list[item]['function']=='dns_resolve_check'):
 					checker2=DnsMonitor(ip,monitor_list[item])
 					for data2 in checker2.dns_resolve_check():
-						print(data2)
+						print(data2['domain'],data2['item'],data2['msg'])
