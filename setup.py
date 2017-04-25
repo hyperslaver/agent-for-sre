@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='agent-for-sre',
-	version='0.0.20',
+	version='0.0.22',
 	description='The agent for sre',
 	url='http://no.website/',
 	author='niht',
