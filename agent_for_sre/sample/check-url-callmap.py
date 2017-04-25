@@ -8,7 +8,12 @@ from agent_for_sre.Monitor.DnsMonitor import DnsMonitor
 from agent_for_sre.Monitor.UrlMonitor import UrlMonitor
 
 if __name__ == "__main__":
-	config=ConfAnalyzer('./x3.yaml')
+	import argparse
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-f", "--file", required=True, help="输入yaml文件")
+	args = parser.parse_args()
+
+	config=ConfAnalyzer(args.file)
 	monitor_list=config.getMonitorMonitorlistByProduct('cia')
 	device_list=config.getMonitorDevicelistByProduct('cia')
 
